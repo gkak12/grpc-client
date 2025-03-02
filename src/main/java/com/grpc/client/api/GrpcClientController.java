@@ -25,7 +25,7 @@ public class GrpcClientController {
     @GetMapping("/findGrpcServerDataList.do")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ResponseDto> findGrpcServerDataList(@ParameterObject @Valid RequestDto requestDto) {
-        log.info("grpc-client: GrpcClientController findGrpcServerDataList is called,");
+        log.info("grpc-client | GrpcClientController findGrpcServerDataList is called.");
 
         return ResponseEntity.ok(
                 grpcClientService.findGrpcServerDataList(requestDto)

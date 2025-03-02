@@ -9,9 +9,11 @@ import com.grpc.server.GrpcServerResponse;
 import com.grpc.server.GrpcServerServiceGrpc;
 import io.grpc.Channel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GrpcClientServiceImpl implements GrpcClientService {
@@ -23,6 +25,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
 
     @Override
     public ResponseDto findGrpcServerDataList(RequestDto requestDto) {
+        log.info("grpc-client | findGrpcServerDataList requestDto: {}", requestDto);
+
         GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
