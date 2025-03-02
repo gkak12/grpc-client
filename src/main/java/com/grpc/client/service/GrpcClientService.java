@@ -1,10 +1,9 @@
 package com.grpc.client.service;
 
 import com.grpc.client.domain.dto.request.RequestDto;
-
-import java.util.List;
+import com.grpc.client.domain.dto.response.ResponseDto;
 
 public interface GrpcClientService {
 
-    List<String> findGrpcServerDataList(RequestDto requestDto);
+    ResponseDto findGrpcServerDataList(RequestDto requestDto);
 }
