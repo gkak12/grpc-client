@@ -7,7 +7,7 @@ option java_package = "com.grpc.server";
 option java_outer_classname = "GrpcServerProto";
 
 service GrpcServerService {
-  rpc findGrpcServerDataList(GrpcServerRequest) returns(GrpcServerResponse);
+  rpc findGrpcServerObjects(GrpcServerRequest) returns(GrpcServerResponse);
 }
 
 message GrpcServerRequest {
@@ -18,5 +18,5 @@ message GrpcServerRequest {
 message GrpcServerResponse {
   uint32 statusCode = 1;
   string message = 2;
-  repeated string dataList = 3;
+  repeated string objects = 3;
 }
