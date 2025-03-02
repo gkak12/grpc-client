@@ -3,6 +3,7 @@ package com.grpc.client.api;
 import com.grpc.client.domain.dto.request.RequestDto;
 import com.grpc.client.domain.dto.response.ResponseDto;
 import com.grpc.client.service.GrpcClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -23,7 +24,7 @@ public class GrpcClientController {
 
     @GetMapping("/findGrpcServerDataList.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResponseDto> findGrpcServerDataList(@ParameterObject RequestDto requestDto) {
+    public ResponseEntity<ResponseDto> findGrpcServerDataList(@ParameterObject @Valid RequestDto requestDto) {
         return ResponseEntity.ok(
                 grpcClientService.findGrpcServerDataList(requestDto)
         );
