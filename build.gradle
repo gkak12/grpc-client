@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
+    // Jakarta EE
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
+
     // Grpc
     implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
 
