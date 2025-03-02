@@ -1,14 +1,18 @@
 package com.grpc.client.api;
 
+import com.grpc.client.domain.dto.request.RequestDto;
 import com.grpc.client.service.GrpcClientService;
-import com.grpc.server.GrpcServerRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,11 +24,9 @@ public class GrpcClientController {
 
     @GetMapping("/findGrpcServerDataList.do")
     @ResponseStatus(HttpStatus.OK)
-    public void findGrpcServerDataList(){
-        GrpcServerRequest request = GrpcServerRequest.newBuilder()
-            .setSeq(1L)
-            .build();
-
-        grpcClientService.findGrpcServerDataList(request);
+    public ResponseEntity<List<String>> findGrpcServerDataList(@ParameterObject RequestDto requestDto) {
+        return ResponseEntity.ok(
+                grpcClientService.findGrpcServerDataList(requestDto)
+        );
     }
 }
