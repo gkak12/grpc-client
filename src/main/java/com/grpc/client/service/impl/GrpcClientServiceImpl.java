@@ -30,11 +30,11 @@ public class GrpcClientServiceImpl implements GrpcClientService {
         GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
-        GrpcServerResponse response = stub.findGrpcServerObjects(request);
+        GrpcServerResponse response = stub.findGrpcServerNames(request);
 
         return ResponseDto.builder()
                 .objects(
-                    response.getObjectsList().stream().toList()
+                    response.getNamesList().stream().toList()
                 )
                 .build();
     }
