@@ -51,10 +51,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
         GrpcServerResponse response = stub.findGrpcServerObjects(request);
 
-        List<ResponseObject> objectList = response.getObjectsList().stream()
+        return response.getObjectsList().stream()
                 .map(grpcMapper::toResponseObject)
                 .toList();
-
-        return objectList;
     }
 }
