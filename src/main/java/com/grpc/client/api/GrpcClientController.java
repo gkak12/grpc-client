@@ -2,6 +2,7 @@ package com.grpc.client.api;
 
 import com.grpc.client.domain.dto.request.RequestDto;
 import com.grpc.client.domain.dto.response.ResponseDto;
+import com.grpc.client.domain.dto.response.ResponseObject;
 import com.grpc.client.service.GrpcClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/grpc")
@@ -22,13 +25,23 @@ public class GrpcClientController {
 
     private final GrpcClientService grpcClientService;
 
-    @GetMapping("/findGrpcServerDataList.do")
+    @GetMapping("/findGrpcServerNames.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResponseDto> findGrpcServerDataList(@ParameterObject @Valid RequestDto requestDto) {
-        log.info("grpc-client | GrpcClientController findGrpcServerDataList is called.");
+    public ResponseEntity<ResponseDto> findGrpcServerNames(@ParameterObject @Valid RequestDto requestDto) {
+        log.info("grpc-client | GrpcClientController findGrpcServerNames is called.");
 
         return ResponseEntity.ok(
-                grpcClientService.findGrpcServerDataList(requestDto)
+            grpcClientService.findGrpcServerNames(requestDto)
+        );
+    }
+
+    @GetMapping("/findGrpcServerObjects.do")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ResponseObject>> findGrpcServerObjects(@ParameterObject @Valid RequestDto requestDto) {
+        log.info("grpc-client | GrpcClientController findGrpcServerObjects is called.");
+
+        return ResponseEntity.ok(
+            grpcClientService.findGrpcServerObjects(requestDto)
         );
     }
 }

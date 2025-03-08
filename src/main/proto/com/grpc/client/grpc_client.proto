@@ -3,11 +3,12 @@ syntax = "proto3";
 import "google/protobuf/empty.proto";
 
 option java_multiple_files = true;
-option java_package = "com.grpc.server";
+option java_package = "com.grpc.client";
 option java_outer_classname = "GrpcServerProto";
 
 service GrpcServerService {
   rpc findGrpcServerNames(GrpcServerRequest) returns(GrpcServerResponse);
+  rpc findGrpcServerObjects(GrpcServerRequest) returns(GrpcServerResponse);
 }
 
 message GrpcServerRequest {
@@ -19,4 +20,11 @@ message GrpcServerResponse {
   uint32 statusCode = 1;
   string message = 2;
   repeated string names = 3;
+  repeated GrpcObject objects = 4;
+}
+
+message GrpcObject{
+  uint64 seq = 1;
+  string name = 2;
+  bool flag = 3;
 }

@@ -1,7 +1,9 @@
 package com.grpc.client.domain.mapper;
 
+import com.grpc.client.GrpcObject;
+import com.grpc.client.GrpcServerRequest;
 import com.grpc.client.domain.dto.request.RequestDto;
-import com.grpc.server.GrpcServerRequest;
+import com.grpc.client.domain.dto.response.ResponseObject;
 import org.mapstruct.*;
 
 @Mapper(
@@ -14,4 +16,5 @@ import org.mapstruct.*;
 public interface GrpcMapper {
 
     GrpcServerRequest toGrpcServerRequest(RequestDto requestDto);
+    ResponseObject toResponseObject(GrpcObject grpcObject);
 }
