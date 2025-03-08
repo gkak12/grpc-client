@@ -8,7 +8,7 @@ option java_outer_classname = "GrpcServerProto";
 
 service GrpcServerService {
   rpc findGrpcServerNames(GrpcServerRequest) returns(GrpcServerResponse);
-  rpc findGrpcServerObjects(GrpcServerRequest) returns(GrpcServerResponse);
+  rpc findGrpcServerObjects(google.protobuf.Empty) returns(GrpcServerResponse);
 }
 
 message GrpcServerRequest {

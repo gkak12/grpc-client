@@ -1,5 +1,6 @@
 package com.grpc.client.service.impl;
 
+import com.google.protobuf.Empty;
 import com.grpc.client.GrpcServerRequest;
 import com.grpc.client.GrpcServerResponse;
 import com.grpc.client.GrpcServerServiceGrpc;
@@ -43,13 +44,11 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     }
 
     @Override
-    public List<ResponseObject> findGrpcServerObjects(RequestDto requestDto) {
-        log.info("grpc-client | findGrpcServerNames requestDto: {}", requestDto);
-
-        GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
+    public List<ResponseObject> findGrpcServerObjects(Empty empty) {
+        log.info("grpc-client | findGrpcServerNames requestDto: empty");
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
-        GrpcServerResponse response = stub.findGrpcServerObjects(request);
+        GrpcServerResponse response = stub.findGrpcServerObjects(empty);
 
         return response.getObjectsList().stream()
                 .map(grpcMapper::toResponseObject)

@@ -1,5 +1,6 @@
 package com.grpc.client.api;
 
+import com.google.protobuf.Empty;
 import com.grpc.client.domain.dto.request.RequestDto;
 import com.grpc.client.domain.dto.response.ResponseDto;
 import com.grpc.client.domain.dto.response.ResponseObject;
@@ -37,11 +38,11 @@ public class GrpcClientController {
 
     @GetMapping("/findGrpcServerObjects.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ResponseObject>> findGrpcServerObjects(@ParameterObject @Valid RequestDto requestDto) {
+    public ResponseEntity<List<ResponseObject>> findGrpcServerObjects(Empty empty) {
         log.info("grpc-client | GrpcClientController findGrpcServerObjects is called.");
 
         return ResponseEntity.ok(
-            grpcClientService.findGrpcServerObjects(requestDto)
+            grpcClientService.findGrpcServerObjects(empty)
         );
     }
 }
