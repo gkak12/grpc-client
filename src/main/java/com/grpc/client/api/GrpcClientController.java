@@ -26,6 +26,16 @@ public class GrpcClientController {
 
     private final GrpcClientService grpcClientService;
 
+    @GetMapping("/findGrpcServerName.do")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> findGrpcServerName(@ParameterObject @Valid RequestDto requestDto) {
+        log.info("grpc-client | GrpcClientController findGrpcServerName is called.");
+
+        return ResponseEntity.ok(
+                grpcClientService.findGrpcServerName(requestDto)
+        );
+    }
+
     @GetMapping("/findGrpcServerNames.do")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ResponseDto> findGrpcServerNames(@ParameterObject @Valid RequestDto requestDto) {

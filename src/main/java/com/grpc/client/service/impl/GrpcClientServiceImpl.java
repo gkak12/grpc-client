@@ -28,6 +28,18 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     private final GrpcMapper grpcMapper;
 
     @Override
+    public String findGrpcServerName(RequestDto requestDto) {
+        log.info("grpc-client | findGrpcServerName requestDto: {}", requestDto);
+
+        GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
+
+        GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
+        GrpcServerResponse response = stub.findGrpcServerName(request);
+
+        return response.getName();
+    }
+
+    @Override
     public ResponseDto findGrpcServerNames(RequestDto requestDto) {
         log.info("grpc-client | findGrpcServerNames requestDto: {}", requestDto);
 
