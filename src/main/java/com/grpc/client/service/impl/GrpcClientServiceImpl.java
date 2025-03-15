@@ -28,25 +28,25 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     private final GrpcMapper grpcMapper;
 
     @Override
-    public String findGrpcServerName(RequestDto requestDto) {
+    public String findNameFromGrpcServer(RequestDto requestDto) {
         log.info("grpc-client | findGrpcServerName requestDto: {}", requestDto);
 
         GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
-        GrpcServerResponse response = stub.findGrpcServerName(request);
+        GrpcServerResponse response = stub.findNameFromGrpcServer(request);
 
         return response.getName();
     }
 
     @Override
-    public ResponseDto findGrpcServerNames(RequestDto requestDto) {
+    public ResponseDto findNamesFromGrpcServer(RequestDto requestDto) {
         log.info("grpc-client | findGrpcServerNames requestDto: {}", requestDto);
 
         GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
-        GrpcServerResponse response = stub.findGrpcServerNames(request);
+        GrpcServerResponse response = stub.findNamesFromGrpcServer(request);
 
         return ResponseDto.builder()
                 .objects(
@@ -56,11 +56,11 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     }
 
     @Override
-    public List<ResponseObject> findGrpcServerObjects(Empty empty) {
+    public List<ResponseObject> findObjectsFromGrpcServer(Empty empty) {
         log.info("grpc-client | findGrpcServerNames requestDto: empty");
 
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);
-        GrpcServerResponse response = stub.findGrpcServerObjects(empty);
+        GrpcServerResponse response = stub.findObjectsFromGrpcServer(empty);
 
         return response.getObjectsList().stream()
                 .map(grpcMapper::toResponseObject)

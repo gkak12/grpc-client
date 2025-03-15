@@ -26,33 +26,33 @@ public class GrpcClientController {
 
     private final GrpcClientService grpcClientService;
 
-    @GetMapping("/findGrpcServerName.do")
+    @GetMapping("/findNameFromGrpcServer.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> findGrpcServerName(@ParameterObject @Valid RequestDto requestDto) {
+    public ResponseEntity<String> findNameFromGrpcServer(@ParameterObject @Valid RequestDto requestDto) {
         log.info("grpc-client | GrpcClientController findGrpcServerName is called.");
 
         return ResponseEntity.ok(
-                grpcClientService.findGrpcServerName(requestDto)
+                grpcClientService.findNameFromGrpcServer(requestDto)
         );
     }
 
-    @GetMapping("/findGrpcServerNames.do")
+    @GetMapping("/findNamesFromGrpcServer.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ResponseDto> findGrpcServerNames(@ParameterObject @Valid RequestDto requestDto) {
+    public ResponseEntity<ResponseDto> findNamesFromGrpcServer(@ParameterObject @Valid RequestDto requestDto) {
         log.info("grpc-client | GrpcClientController findGrpcServerNames is called.");
 
         return ResponseEntity.ok(
-            grpcClientService.findGrpcServerNames(requestDto)
+            grpcClientService.findNamesFromGrpcServer(requestDto)
         );
     }
 
-    @GetMapping("/findGrpcServerObjects.do")
+    @GetMapping("/findObjectsFromGrpcServer.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ResponseObject>> findGrpcServerObjects(Empty empty) {
+    public ResponseEntity<List<ResponseObject>> findObjectsFromGrpcServer(Empty empty) {
         log.info("grpc-client | GrpcClientController findGrpcServerObjects is called.");
 
         return ResponseEntity.ok(
-            grpcClientService.findGrpcServerObjects(empty)
+            grpcClientService.findObjectsFromGrpcServer(empty)
         );
     }
 }

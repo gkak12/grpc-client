@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GrpcClientService {
 
-    String findGrpcServerName(RequestDto requestDto);
-    ResponseDto findGrpcServerNames(RequestDto requestDto);
-    List<ResponseObject> findGrpcServerObjects(Empty empty);
+    String findNameFromGrpcServer(RequestDto requestDto);
+    ResponseDto findNamesFromGrpcServer(RequestDto requestDto);
+    List<ResponseObject> findObjectsFromGrpcServer(Empty empty);
 }
