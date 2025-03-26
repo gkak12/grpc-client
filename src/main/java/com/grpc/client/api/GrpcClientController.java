@@ -32,7 +32,7 @@ public class GrpcClientController {
         log.info("grpc-client | GrpcClientController findGrpcServerName is called.");
 
         return ResponseEntity.ok(
-                grpcClientService.findNameFromGrpcServer(requestDto)
+            grpcClientService.findNameFromGrpcServer(requestDto)
         );
     }
 
@@ -54,5 +54,13 @@ public class GrpcClientController {
         return ResponseEntity.ok(
             grpcClientService.findObjectsFromGrpcServer(empty)
         );
+    }
+
+    @GetMapping("/downloadFileFromGrpcServer.do")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<byte[]> downloadFileFromGrpcServer(@ParameterObject @Valid RequestDto requestDto) {
+        log.info("grpc-client | GrpcClientController downloadFileFromGrpcServer is called.");
+
+        return grpcClientService.downloadFileFromGrpcServer(requestDto);
     }
 }

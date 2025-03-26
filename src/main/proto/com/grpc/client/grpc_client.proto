@@ -10,7 +10,7 @@ service GrpcServerService {
   rpc findNameFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
   rpc findNamesFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
   rpc findObjectsFromGrpcServer(google.protobuf.Empty) returns(GrpcServerResponse);
-  rpc downloadFileFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
+  rpc downloadFileFromGrpcServer(GrpcServerRequest) returns(stream FileChunk);
 }
 
 message GrpcServerRequest {
@@ -25,11 +25,14 @@ message GrpcServerResponse {
   repeated string names = 4;
   GrpcObject object = 5;
   repeated GrpcObject objects = 6;
-  bytes byte = 7;
 }
 
 message GrpcObject{
   uint64 seq = 1;
   string name = 2;
   bool flag = 3;
+}
+
+message FileChunk{
+  bytes data = 1;
 }
