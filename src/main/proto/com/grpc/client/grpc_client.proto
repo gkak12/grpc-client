@@ -11,6 +11,7 @@ service GrpcServerService {
   rpc findNamesFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
   rpc findObjectsFromGrpcServer(google.protobuf.Empty) returns(GrpcServerResponse);
   rpc downloadFileFromGrpcServer(GrpcServerRequest) returns(stream FileChunk);
+  rpc uploadFileToGrpcServer(stream FileChunk) returns (GrpcServerResponse);
 }
 
 message GrpcServerRequest {
