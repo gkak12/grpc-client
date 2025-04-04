@@ -2,6 +2,7 @@ package com.grpc.client.api;
 
 import com.google.protobuf.Empty;
 import com.grpc.client.domain.dto.request.RequestDto;
+import com.grpc.client.domain.dto.request.RequestFileDto;
 import com.grpc.client.domain.dto.response.ResponseDto;
 import com.grpc.client.domain.dto.response.ResponseObject;
 import com.grpc.client.service.GrpcClientService;
@@ -11,10 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -53,6 +52,16 @@ public class GrpcClientController {
 
         return ResponseEntity.ok(
             grpcClientService.findObjectsFromGrpcServer(empty)
+        );
+    }
+
+    @PostMapping("/uploadFileToGrpcServer.do")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> uploadFileToGrpcServer(@ModelAttribute RequestFileDto requestFileDto) {
+        log.info("grpc-client | GrpcClientController uploadFileToGrpcServer is called.");
+
+        return ResponseEntity.ok(
+            grpcClientService.uploadFileToGrpcServer(requestFileDto)
         );
     }
 

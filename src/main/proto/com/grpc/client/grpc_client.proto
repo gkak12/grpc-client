@@ -10,8 +10,8 @@ service GrpcServerService {
   rpc findNameFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
   rpc findNamesFromGrpcServer(GrpcServerRequest) returns(GrpcServerResponse);
   rpc findObjectsFromGrpcServer(google.protobuf.Empty) returns(GrpcServerResponse);
-  rpc downloadFileFromGrpcServer(GrpcServerRequest) returns(stream FileChunk);
-  rpc uploadFileToGrpcServer(stream FileChunk) returns (GrpcServerResponse);
+  rpc uploadFileToGrpcServer(stream UploadFileChunk) returns (GrpcServerResponse);
+  rpc downloadFileFromGrpcServer(GrpcServerRequest) returns(stream DownloadFileChunk);
 }
 
 message GrpcServerRequest {
@@ -34,6 +34,11 @@ message GrpcObject{
   bool flag = 3;
 }
 
-message FileChunk{
+message UploadFileChunk{
+  string fileName = 1;
+  bytes data = 2;
+}
+
+message DownloadFileChunk{
   bytes data = 1;
 }
