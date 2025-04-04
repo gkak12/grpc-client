@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 @Service
@@ -83,6 +84,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     public String uploadFileToGrpcServer(RequestFileDto requestFileDto) {
         log.info("grpc-client | uploadFileToGrpcServer requestFileDto: {0}", requestFileDto);
 
+        CountDownLatch latch = new CountDownLatch(1);
+
         StreamObserver<GrpcServerResponse> responseStreamObserver = new StreamObserver<GrpcServerResponse>() {
             @Override
             public void onNext(GrpcServerResponse grpcServerResponse) {
@@ -92,11 +95,13 @@ public class GrpcClientServiceImpl implements GrpcClientService {
             @Override
             public void onError(Throwable throwable) {
                 log.info("grpc-client | onError");
+                latch.countDown();
             }
 
             @Override
             public void onCompleted() {
                 log.info("grpc-client | onCompleted");
+                latch.countDown();
             }
         };
 
