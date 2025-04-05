@@ -84,29 +84,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     public String uploadFileToGrpcServer(RequestFileDto requestFileDto) {
         log.info("grpc-client | uploadFileToGrpcServer requestFileDto: {0}", requestFileDto);
 
-        CountDownLatch latch = new CountDownLatch(1);
-
-        StreamObserver<GrpcServerResponse> responseStreamObserver = new StreamObserver<GrpcServerResponse>() {
-            @Override
-            public void onNext(GrpcServerResponse grpcServerResponse) {
-                log.info("grpc-client | onNext");
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                log.info("grpc-client | onError");
-                latch.countDown();
-            }
-
-            @Override
-            public void onCompleted() {
-                log.info("grpc-client | onCompleted");
-                latch.countDown();
-            }
-        };
-
         GrpcServerServiceGrpc.GrpcServerServiceStub stub = GrpcServerServiceGrpc.newStub(serverServiceChannel);
-        StreamObserver<UploadFileChunk> requestObserver = stub.uploadFileToGrpcServer(responseStreamObserver);
+        StreamObserver<UploadFileChunk> requestObserver = stub.uploadFileToGrpcServer(getUploadFileStreamObserver());
         MultipartFile file = requestFileDto.getFile();
 
         try (InputStream inputStream = file.getInputStream()) {
@@ -129,6 +108,29 @@ public class GrpcClientServiceImpl implements GrpcClientService {
             requestObserver.onError(e);
             return "FAILED";
         }
+    }
+
+    private StreamObserver<GrpcServerResponse> getUploadFileStreamObserver(){
+        CountDownLatch latch = new CountDownLatch(1);
+
+        return new StreamObserver<>() {
+            @Override
+            public void onNext(GrpcServerResponse grpcServerResponse) {
+                log.info("grpc-client | onNext");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                log.info("grpc-client | onError");
+                latch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                log.info("grpc-client | onCompleted");
+                latch.countDown();
+            }
+        };
     }
 
     @Override
