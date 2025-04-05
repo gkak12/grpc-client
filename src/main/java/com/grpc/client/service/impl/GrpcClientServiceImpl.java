@@ -81,8 +81,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     }
 
     @Override
-    public String uploadFileToGrpcServer(RequestFileDto requestFileDto) {
-        log.info("grpc-client | uploadFileToGrpcServer requestFileDto: {0}", requestFileDto);
+    public ResponseDto uploadFileToGrpcServer(RequestFileDto requestFileDto) {
+        log.info("grpc-client | uploadFileToGrpcServer requestFileDto: {}", requestFileDto);
 
         GrpcServerServiceGrpc.GrpcServerServiceStub stub = GrpcServerServiceGrpc.newStub(serverServiceChannel);
         StreamObserver<UploadFileChunk> requestObserver = stub.uploadFileToGrpcServer(getUploadFileStreamObserver());
@@ -102,11 +102,16 @@ public class GrpcClientServiceImpl implements GrpcClientService {
 
             requestObserver.onCompleted();
 
-            return "SUCCESS";
+            return ResponseDto.builder()
+                    .message("SUCCESS")
+                    .build();
 
         } catch (Exception e) {
             requestObserver.onError(e);
-            return "FAILED";
+
+            return ResponseDto.builder()
+                    .message("FAILED")
+                    .build();
         }
     }
 
@@ -135,7 +140,7 @@ public class GrpcClientServiceImpl implements GrpcClientService {
 
     @Override
     public ResponseEntity<byte[]> downloadFileFromGrpcServer(RequestDto requestDto) {
-        log.info("grpc-client | downloadFileFromGrpcServer requestDto: {0}", requestDto);
+        log.info("grpc-client | downloadFileFromGrpcServer requestDto: {}", requestDto);
 
         GrpcServerRequest request = grpcMapper.toGrpcServerRequest(requestDto);
         GrpcServerServiceGrpc.GrpcServerServiceBlockingStub stub = GrpcServerServiceGrpc.newBlockingStub(serverServiceChannel);

@@ -14,6 +14,6 @@ public interface GrpcClientService {
     String findNameFromGrpcServer(RequestDto requestDto);
     ResponseDto findNamesFromGrpcServer(RequestDto requestDto);
     List<ResponseObject> findObjectsFromGrpcServer(Empty empty);
-    String uploadFileToGrpcServer(RequestFileDto requestFileDto);
+    ResponseDto uploadFileToGrpcServer(RequestFileDto requestFileDto);
     ResponseEntity<byte[]> downloadFileFromGrpcServer(RequestDto requestDto);
 }

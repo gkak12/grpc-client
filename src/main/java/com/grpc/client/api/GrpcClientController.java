@@ -57,7 +57,7 @@ public class GrpcClientController {
 
     @PostMapping("/uploadFileToGrpcServer.do")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> uploadFileToGrpcServer(@ModelAttribute RequestFileDto requestFileDto) {
+    public ResponseEntity<ResponseDto> uploadFileToGrpcServer(@ModelAttribute RequestFileDto requestFileDto) {
         log.info("grpc-client | GrpcClientController uploadFileToGrpcServer is called.");
 
         return ResponseEntity.ok(
