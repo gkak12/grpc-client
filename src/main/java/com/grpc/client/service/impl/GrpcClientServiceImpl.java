@@ -17,6 +17,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -84,8 +86,12 @@ public class GrpcClientServiceImpl implements GrpcClientService {
     public ResponseDto uploadFileToGrpcServer(RequestFileDto requestFileDto) {
         log.info("grpc-client | uploadFileToGrpcServer requestFileDto: {}", requestFileDto);
 
+        Pair<StreamObserver<GrpcServerResponse>, CountDownLatch> pair = getUploadFileStreamObserver();
+        StreamObserver<GrpcServerResponse> responseStreamObserver = pair.getLeft();
+        CountDownLatch latch = pair.getRight();
+
         GrpcServerServiceGrpc.GrpcServerServiceStub stub = GrpcServerServiceGrpc.newStub(serverServiceChannel);
-        StreamObserver<UploadFileChunk> requestObserver = stub.uploadFileToGrpcServer(getUploadFileStreamObserver());
+        StreamObserver<UploadFileChunk> requestObserver = stub.uploadFileToGrpcServer(responseStreamObserver);
         MultipartFile file = requestFileDto.getFile();
 
         try (InputStream inputStream = file.getInputStream()) {
@@ -102,6 +108,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
 
             requestObserver.onCompleted();
 
+            latch.await(10, TimeUnit.SECONDS);
+
             return ResponseDto.builder()
                     .message("SUCCESS")
                     .build();
@@ -115,10 +123,10 @@ public class GrpcClientServiceImpl implements GrpcClientService {
         }
     }
 
-    private StreamObserver<GrpcServerResponse> getUploadFileStreamObserver(){
+    private Pair<StreamObserver<GrpcServerResponse>, CountDownLatch> getUploadFileStreamObserver(){
         CountDownLatch latch = new CountDownLatch(1);
 
-        return new StreamObserver<>() {
+        StreamObserver<GrpcServerResponse> responseStreamObserver = new StreamObserver<>() {
             @Override
             public void onNext(GrpcServerResponse grpcServerResponse) {
                 log.info("grpc-client | onNext");
@@ -136,6 +144,8 @@ public class GrpcClientServiceImpl implements GrpcClientService {
                 latch.countDown();
             }
         };
+
+        return Pair.of(responseStreamObserver, latch);
     }
 
     @Override
